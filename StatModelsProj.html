@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Statistical Models Class Project by T. Bhat</title>
+<title>Regression Models Class Project by T. Bhat</title>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -163,16 +163,20 @@ hr {
 </head>
 
 <body>
-<h2>Statistical Models Class Project by T. Bhat</h2>
+<h2>Regression Models Class Project by T. Bhat</h2>
 
 <h2>Executive Summary:</h2>
 
-<p>Do cars with manual transmission behave more favorably than automatic transmission cars with respect to fuel efficiency? It is a common belief that changing gears manually results in better fuel management. In this report we will use a dataset from the 1974 Motor Trend US magazine to answer the following questions:
+<p>Do cars with manual transmission behave more favorably than automatic transmission cars with respect to fuel efficiency? It is a common belief that changing gears manually results in better fuel management. We will answer:
     - Is an automatic or manual transmission better for miles per gallon (MPG)?
     - How different is the MPG between automatic and manual transmissions?
 Using hypothesis testing and simple linear regression, we determine that there is a signficant difference between the mean MPG for automatic and manual transmission cars, 
 with the latter having <strong>7.245</strong> more MPGs on average using <strong>coefficients</strong> from the regression model. However, in order to adjust for other confounding variables such as the wt, hp and vs of the car, we run a multivariate 
 regression to get a better estimate the impact of transmission type on MPG. After validating the models using ANOVA, the results from the multivariate regression model reveal that, on average, manual transmission cars get <strong>1.976</strong> miles per gallon more than automatic transmission cars using <strong>coeffients</strong>.</p>
+
+<h4>Uncertainty and Limitations:</h4>
+
+<p>The data is from 1974 and may not be valid for current car models. Also, the size of the dataset is small with 32 observations.</p>
 
 <h2>Exploratory Data Analysis:</h2>
 
@@ -221,8 +225,8 @@ dim(mtcars)
 <pre><code class="r">head(mtcars, n=1)
 </code></pre>
 
-<pre><code>##           mpg cyl disp  hp drat   wt  qsec vs am gear carb
-## Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4
+<pre><code>##           mpg cyl disp  hp drat   wt  qsec vs     am gear carb
+## Mazda RX4  21   6  160 110  3.9 2.62 16.46  0 Manual    4    4
 </code></pre>
 
 <pre><code class="r">mtcars$am &lt;- as.factor(mtcars$am)

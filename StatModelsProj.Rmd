@@ -1,12 +1,14 @@
 Regression Models Class Project by T. Bhat
 -------------------------------------------------------------------
 ## Executive Summary:
-Do cars with manual transmission behave more favorably than automatic transmission cars with respect to fuel efficiency? It is a common belief that changing gears manually results in better fuel management. In this report we will use a dataset from the 1974 Motor Trend US magazine to answer the following questions:
+Do cars with manual transmission behave more favorably than automatic transmission cars with respect to fuel efficiency? It is a common belief that changing gears manually results in better fuel management. We will answer:
 	- Is an automatic or manual transmission better for miles per gallon (MPG)?
 	- How different is the MPG between automatic and manual transmissions?
 Using hypothesis testing and simple linear regression, we determine that there is a signficant difference between the mean MPG for automatic and manual transmission cars, 
 with the latter having **7.245** more MPGs on average using **coefficients** from the regression model. However, in order to adjust for other confounding variables such as the wt, hp and vs of the car, we run a multivariate 
 regression to get a better estimate the impact of transmission type on MPG. After validating the models using ANOVA, the results from the multivariate regression model reveal that, on average, manual transmission cars get **1.976** miles per gallon more than automatic transmission cars using **coeffients**.
+#### Uncertainty and Limitations: 
+The data is from 1974 and may not be valid for current car models. Also, the size of the dataset is small with 32 observations.
 
 ## Exploratory Data Analysis:
 The details of exploratory data analysis is in the appendix under Exploratory Data Analysis. We find that there are 11 variables describing 32 vehicles. 
