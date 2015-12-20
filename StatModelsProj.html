@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Statistical Models Class Project by T. Bhat</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h2>Statistical Models Class Project by T. Bhat</h2>
+
+<h2>Executive Summary:</h2>
+
+<p>Do cars with manual transmission behave more favorably than automatic transmission cars with respect to fuel efficiency? It is a common belief that changing gears manually results in better fuel management. In this report we will use a dataset from the 1974 Motor Trend US magazine to answer the following questions:
+    - Is an automatic or manual transmission better for miles per gallon (MPG)?
+    - How different is the MPG between automatic and manual transmissions?
+Using hypothesis testing and simple linear regression, we determine that there is a signficant difference between the mean MPG for automatic and manual transmission cars, 
+with the latter having <strong>7.245</strong> more MPGs on average using <strong>coefficients</strong> from the regression model. However, in order to adjust for other confounding variables such as the wt, hp and vs of the car, we run a multivariate 
+regression to get a better estimate the impact of transmission type on MPG. After validating the models using ANOVA, the results from the multivariate regression model reveal that, on average, manual transmission cars get <strong>1.976</strong> miles per gallon more than automatic transmission cars using <strong>coeffients</strong>.</p>
+
+<h2>Exploratory Data Analysis:</h2>
+
+<p>The details of exploratory data analysis is in the appendix under Exploratory Data Analysis. We find that there are 11 variables describing 32 vehicles. 
+Also the mpg for cars with manual transmission is higher than the cars with automated transmission. Is this a significant difference? 
+We set our alpha value at 0.5 and run the t.test. With a p-value of 0.001374, we reject the null hypothesis and claim that there is 
+a significant difference in the mean MPG between manual transmission and automatic cars.</p>
+
+<h2>Building Different Models</h2>
+
+<p>The detailed R code and plots are noted in the appendix for this section as mandated by  the project course.</p>
+
+<h3>Linear Regression Model Using One Variable</h3>
+
+<p>Simple One Variable Linear Regression Model. In this model, we model mpg being predicted using transmission type.
+This model accounts for 36% of variance, so having just one variable is not sufficient as it doesnt account for all the variance.</p>
+
+<h3>Multivariate Linear Regression</h3>
+
+<p>We look for which variables correlate best with mpg, we look at the correlation table. This can be obtained using the R commands data(mtcars), cor(mtcars). From the table, we find that wt, cyl, disp, hp, am correlate highly with mpg. We see that cyl and disp are highly correlated with each other. 
+We take out confounding variables and build out model with five variables am. cyl, wt, hp and vs. Similarly, vs and qsec are highly correlated with each other. Am and drat are also highly correlated with each other. 
+This model with five variables accounts for 85% of the variance. This is much better than the model wiht one variable. Let us analyze the variances of the two models using Anova.
+Looking at the p-value of 6.227e-08, we see that the multivariate model is significantly different than the model with a single variable.
+Lastly, we check the residuals for non-normality and also examine the residuals vs. fitted values plot to spot for any signs of heteroskedasticity</p>
+
+<h4>Coeffients</h4>
+
+<p>The coefficients show the intercept and the difference in mpg between manual and automatic at 7.245 with one variable. The coeffients for multivariate model shows that manual transmission gets 1.976 mpg more than the automatic model.</p>
+
+<h2>Conclusion</h2>
+
+<p>Looking at the plots under multivariate regression models in the <strong>Appendix</strong>, we can see that our residuals are normally distributed and homoskedastic. This shows that our multivariate model is a reasonably good one and R<sup>2</sup> accounts for 85% of variance.
+We also found that in addition to am, we also have weight and vs contributing heavily as predictors for mpg and better than the univariate model. </p>
+
+<h2>Appendix</h2>
+
+<h3>Exploratory Data Analysis</h3>
+
+<pre><code class="r">data(cars)
+dim(mtcars)
+</code></pre>
+
+<pre><code>## [1] 32 11
+</code></pre>
+
+<pre><code class="r">head(mtcars, n=1)
+</code></pre>
+
+<pre><code>##           mpg cyl disp  hp drat   wt  qsec vs am gear carb
+## Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4
+</code></pre>
+
+<pre><code class="r">mtcars$am &lt;- as.factor(mtcars$am)
+levels(mtcars$am) &lt;- c(&quot;Automatic&quot;, &quot;Manual&quot;)
+boxplot(mpg~am,data=mtcars,col = c(&quot;blue&quot;, &quot;green&quot;), xlab=&quot;Transmission&quot;, ylab=&quot;Miles per Gallon&quot;, main = &quot;MPG by Transmission Type&quot;)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"> </p>
+
+<pre><code class="r">aggregate(mpg~am, data=mtcars, mean)
+</code></pre>
+
+<pre><code>##          am      mpg
+## 1 Automatic 17.14737
+## 2    Manual 24.39231
+</code></pre>
+
+<pre><code class="r">autoData &lt;- mtcars[mtcars$am == &quot;Automatic&quot;,]
+manData &lt;- mtcars[mtcars$am == &quot;Manual&quot;,]
+t.test(autoData$mpg, manData$mpg)
+</code></pre>
+
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  autoData$mpg and manData$mpg
+## t = -3.7671, df = 18.332, p-value = 0.001374
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -11.280194  -3.209684
+## sample estimates:
+## mean of x mean of y 
+##  17.14737  24.39231
+</code></pre>
+
+<h2>Building Different Models</h2>
+
+<h3>Linear Regression Model Using One Variable</h3>
+
+<pre><code class="r">fit &lt;- lm(mpg~am, data=mtcars)
+summary(fit)$coefficients
+</code></pre>
+
+<pre><code>##              Estimate Std. Error   t value     Pr(&gt;|t|)
+## (Intercept) 17.147368   1.124603 15.247492 1.133983e-15
+## amManual     7.244939   1.764422  4.106127 2.850207e-04
+</code></pre>
+
+<h3>Multivariate Regression Models</h3>
+
+<pre><code class="r">mfit &lt;- lm(mpg~am+cyl+wt+hp+vs, data=mtcars)
+summary(mfit)$coefficients
+</code></pre>
+
+<pre><code>##                Estimate Std. Error    t value     Pr(&gt;|t|)
+## (Intercept) 33.24159905 5.48527074  6.0601565 2.108602e-06
+## amManual     1.97574750 1.64825342  1.1986916 2.414597e-01
+## cyl         -0.40178727 0.79364098 -0.5062582 6.169415e-01
+## wt          -2.54331718 0.93506164 -2.7199460 1.148231e-02
+## hp          -0.02588661 0.01387176 -1.8661377 7.334148e-02
+## vs           1.17066640 1.81282822  0.6457680 5.240886e-01
+</code></pre>
+
+<pre><code class="r">anova(fit,mfit)
+</code></pre>
+
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: mpg ~ am
+## Model 2: mpg ~ am + cyl + wt + hp + vs
+##   Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1     30 720.90                                  
+## 2     26 167.31  4    553.58 21.506 6.227e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</code></pre>
+
+<pre><code class="r">par(mfrow = c(2,2))
+plot(mfit)
+</code></pre>
+
+<p><img src="figure/unnamed-chunk-9-1.png" alt="plot of chunk unnamed-chunk-9"> </p>
+
+</body>
+
+</html>

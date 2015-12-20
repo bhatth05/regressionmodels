@@ -1,0 +1,86 @@
+Regression Models Class Project by T. Bhat
+-------------------------------------------------------------------
+## Executive Summary:
+Do cars with manual transmission behave more favorably than automatic transmission cars with respect to fuel efficiency? It is a common belief that changing gears manually results in better fuel management. In this report we will use a dataset from the 1974 Motor Trend US magazine to answer the following questions:
+	- Is an automatic or manual transmission better for miles per gallon (MPG)?
+	- How different is the MPG between automatic and manual transmissions?
+Using hypothesis testing and simple linear regression, we determine that there is a signficant difference between the mean MPG for automatic and manual transmission cars, 
+with the latter having **7.245** more MPGs on average using **coefficients** from the regression model. However, in order to adjust for other confounding variables such as the wt, hp and vs of the car, we run a multivariate 
+regression to get a better estimate the impact of transmission type on MPG. After validating the models using ANOVA, the results from the multivariate regression model reveal that, on average, manual transmission cars get **1.976** miles per gallon more than automatic transmission cars using **coeffients**.
+
+## Exploratory Data Analysis:
+The details of exploratory data analysis is in the appendix under Exploratory Data Analysis. We find that there are 11 variables describing 32 vehicles. 
+Also the mpg for cars with manual transmission is higher than the cars with automated transmission. Is this a significant difference? 
+We set our alpha value at 0.5 and run the t.test. With a p-value of 0.001374, we reject the null hypothesis and claim that there is 
+a significant difference in the mean MPG between manual transmission and automatic cars.
+
+## Building Different Models
+The detailed R code and plots are noted in the appendix for this section as mandated by  the project course.
+### Linear Regression Model Using One Variable
+
+Simple One Variable Linear Regression Model. In this model, we model mpg being predicted using transmission type.
+This model accounts for 36% of variance, so having just one variable is not sufficient as it doesnt account for all the variance.
+
+
+### Multivariate Linear Regression
+We look for which variables correlate best with mpg, we look at the correlation table. This can be obtained using the R commands data(mtcars), cor(mtcars). From the table, we find that wt, cyl, disp, hp, am correlate highly with mpg. We see that cyl and disp are highly correlated with each other. 
+We take out confounding variables and build out model with five variables am. cyl, wt, hp and vs. Similarly, vs and qsec are highly correlated with each other. Am and drat are also highly correlated with each other. 
+This model with five variables accounts for 85% of the variance. This is much better than the model wiht one variable. Let us analyze the variances of the two models using Anova.
+Looking at the p-value of 6.227e-08, we see that the multivariate model is significantly different than the model with a single variable.
+Lastly, we check the residuals for non-normality and also examine the residuals vs. fitted values plot to spot for any signs of heteroskedasticity
+
+
+#### Coeffients
+The coefficients show the intercept and the difference in mpg between manual and automatic at 7.245 with one variable. The coeffients for multivariate model shows that manual transmission gets 1.976 mpg more than the automatic model.
+
+## Conclusion
+Looking at the plots under multivariate regression models in the **Appendix**, we can see that our residuals are normally distributed and homoskedastic. This shows that our multivariate model is a reasonably good one and R^2 accounts for 85% of variance.
+We also found that in addition to am, we also have weight and vs contributing heavily as predictors for mpg and better than the univariate model. 
+
+## Appendix
+### Exploratory Data Analysis
+
+```{r}
+data(cars)
+dim(mtcars)
+```
+```{r}
+head(mtcars, n=1)
+```
+```{r fig.width=7, fig.height=6}
+mtcars$am <- as.factor(mtcars$am)
+levels(mtcars$am) <- c("Automatic", "Manual")
+boxplot(mpg~am,data=mtcars,col = c("blue", "green"), xlab="Transmission", ylab="Miles per Gallon", main = "MPG by Transmission Type")
+```
+```{r}
+aggregate(mpg~am, data=mtcars, mean)
+```
+```{r}
+autoData <- mtcars[mtcars$am == "Automatic",]
+manData <- mtcars[mtcars$am == "Manual",]
+t.test(autoData$mpg, manData$mpg)
+```
+## Building Different Models
+### Linear Regression Model Using One Variable
+
+```{r}
+fit <- lm(mpg~am, data=mtcars)
+summary(fit)$coefficients
+```
+
+### Multivariate Regression Models
+```{r}
+mfit <- lm(mpg~am+cyl+wt+hp+vs, data=mtcars)
+summary(mfit)$coefficients
+```
+
+
+```{r}
+anova(fit,mfit)
+```
+
+
+```{r}
+par(mfrow = c(2,2))
+plot(mfit)
+```
